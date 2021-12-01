@@ -7,4 +7,8 @@
     <string name="wash_iron"><![CDATA[WASH & IRON]]></string>
     <string name="dry_cleaning">DRY CLEANING</string>
     <string name="recommended">RECOMMENDED</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_message">Message</string>
 </resources>
