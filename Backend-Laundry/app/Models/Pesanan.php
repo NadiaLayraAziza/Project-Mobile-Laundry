@@ -20,6 +20,7 @@ class Pesanan extends Model
         'estimasi_hari',
         'pengambilan',
         'harga',
+        'status',
     ];
 
     public function user()

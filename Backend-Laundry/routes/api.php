@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaundryController;
+use App\Http\Controllers\PesananController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => 'auth-api'], function ($router) {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('me', [AuthController::class, 'me']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('laundry', LaundryController::class);
+    Route::resource('pesanan', PesananController::class);
 });
+Route::post('register', [AuthController::class, 'register']);

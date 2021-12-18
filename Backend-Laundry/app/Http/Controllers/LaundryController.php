@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laundry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class LaundryController extends Controller
 {
@@ -15,7 +16,6 @@ class LaundryController extends Controller
     public function index()
     {
         $data = Laundry::latest()->get();
-        return response()->json([($data), 'Data fetched.']);
         return response()->json(
             [
                 'status' => 200,
@@ -43,10 +43,15 @@ class LaundryController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->file('gambar')) {
+            $image_name = $request->file('gambar')->store('images', 'public');
+        }
+
         $data = Laundry::create([
-            'user_id' => $request->user_id,
-            'nama_laundry' => $request->nama_laundry
-         ]);
+            'user_id' => auth()->user()->id,
+            'nama_laundry' => $request->nama_laundry,
+            'gambar' => $image_name
+        ]);
 
         return response()->json(
             [
@@ -104,8 +109,15 @@ class LaundryController extends Controller
      */
     public function update(Request $request, Laundry $laundry)
     {
-        $laundry->nama_laundry = $request->nama_laundry;
-        $laundry->save();
+        if ($request->file('gambar')){
+            $image_name = $request->file('gambar')->store('images', 'public');
+            $laundry->gambar = $image_name;
+            $laundry->nama_laundry = $request->nama_laundry;
+            $laundry->save();
+        } else {
+            $laundry->nama_laundry = $request->nama_laundry;
+            $laundry->save();
+        }
 
         return response()->json(
             [

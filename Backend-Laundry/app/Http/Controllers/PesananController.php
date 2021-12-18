@@ -43,7 +43,7 @@ class PesananController extends Controller
     public function store(Request $request)
     {
         $data = Pesanan::create([
-            'user_id' => $request->user_id,
+            'user_id' => auth()->user()->id,
             'laundry_id' => $request->laundry_id,
             'kategori_id' => $request->kategori_id,
             'berat' => $request->berat,
@@ -110,7 +110,6 @@ class PesananController extends Controller
      */
     public function update(Request $request, Pesanan $pesanan)
     {
-        $pesanan->user_id = $request->user_id;
         $pesanan->laundry_id = $request->laundry_id;
         $pesanan->kategori_id = $request->kategori_id;
         $pesanan->berat = $request->berat;

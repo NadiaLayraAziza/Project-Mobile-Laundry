@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class Laundry extends Model
 {
@@ -16,6 +17,11 @@ class Laundry extends Model
         'nama_laundry',
         'gambar',
     ];
+
+    public function getGambarAttribute()
+    {
+        return $this->attributes['gambar'] ?  URL::to('/') . '/storage/' . $this->attributes['gambar'] : null;
+    }
 
     public function user()
     {
