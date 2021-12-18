@@ -26,6 +26,7 @@ class CreatePesananTable extends Migration
             $table->integer('estimasi_hari');
             $table->string('pengambilan');
             $table->integer('harga');
+            $table->string('status');
             $table->timestamps();
         });
     }

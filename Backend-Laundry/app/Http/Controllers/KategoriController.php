@@ -15,7 +15,13 @@ class KategoriController extends Controller
     public function index()
     {
         $data = Kategori::latest()->get();
-        return response()->json([($data), 'Data fetched.']);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -42,7 +48,13 @@ class KategoriController extends Controller
             'hargakg' => $request->hargakg,
          ]);
 
-        return response()->json(['Data created successfully.', ($data)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data created successfully.',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -55,9 +67,21 @@ class KategoriController extends Controller
     {
         $data = Kategori::find($id);
         if (is_null($data)) {
-            return response()->json('Data not found', 404);
+            return response()->json(
+                [
+                    'status' => 404,
+                    'message' => 'Data not found'
+                ]
+            );
         }
-        return response()->json([($data)]);
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -83,7 +107,13 @@ class KategoriController extends Controller
         $kategori->hargakg = $request->hargakg;
         $kategori->save();
 
-        return response()->json(['Data updated successfully.', ($kategori)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data updated successfully.',
+                'data' => $kategori
+            ]
+        );
     }
 
     /**
@@ -95,6 +125,12 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori)
     {
         $kategori->delete();
-        return response()->json('Data deleted successfully');
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data deleted successfully'
+            ]
+        );
     }
 }

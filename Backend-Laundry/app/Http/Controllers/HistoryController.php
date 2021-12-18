@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class HistoryController extends Controller
@@ -13,7 +14,14 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        //
+        $data = History::latest()->get();
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -34,7 +42,20 @@ class HistoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = History::create([
+            'id_user' => $request->id_user,
+            'id_pesanan' => $request->id_pesanan,
+            'id_laundry' => $request->id_laundry,
+            'status' => $request->status,
+         ]);
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data created successfully.',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -45,7 +66,25 @@ class HistoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = History::find($id);
+        if (is_null($data)) {
+            return response()->json(
+                [
+                    'status' => 404,
+                    'message' => 'Data not found',
+                    'data' => $data
+                ]
+            );
+
+        }
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -66,9 +105,21 @@ class HistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, History $history)
     {
-        //
+        $history->id_user = $request->id_user;
+        $history->id_pesanan = $request->id_pesanan;
+        $history->id_laundry = $request->id_laundry;
+        $history->status = $request->status;
+        $history->save();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data updated successfully.',
+                'data' => $history
+            ]
+        );
     }
 
     /**
@@ -77,8 +128,15 @@ class HistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(History $history)
     {
-        //
+        $history->delete();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data deleted successfully'
+            ]
+        );
     }
 }

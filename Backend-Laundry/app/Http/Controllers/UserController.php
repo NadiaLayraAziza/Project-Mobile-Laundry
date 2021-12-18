@@ -15,7 +15,13 @@ class UserController extends Controller
     public function index()
     {
         $data = User::latest()->get();
-        return response()->json([($data), 'Data fetched.']);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -46,7 +52,13 @@ class UserController extends Controller
             'role' => $request->role
          ]);
 
-        return response()->json(['Data created successfully.', ($data)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data created successfully.',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -59,9 +71,20 @@ class UserController extends Controller
     {
         $data = User::find($id);
         if (is_null($data)) {
-            return response()->json('Data not found', 404);
+            return response()->json(
+                [
+                    'status' => 404,
+                    'message' => 'Data not found'
+                ]
+            );
         }
-        return response()->json([($data)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -93,7 +116,13 @@ class UserController extends Controller
         $user->role = $request->role;
         $user->save();
 
-        return response()->json(['Data updated successfully.', ($user)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data updated successfully.',
+                'data' => $user
+            ]
+        );
     }
 
     /**
@@ -105,6 +134,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json('Data deleted successfully');
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data deleted successfully'
+            ]
+        );
     }
 }

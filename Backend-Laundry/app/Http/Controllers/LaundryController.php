@@ -16,6 +16,13 @@ class LaundryController extends Controller
     {
         $data = Laundry::latest()->get();
         return response()->json([($data), 'Data fetched.']);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -41,7 +48,13 @@ class LaundryController extends Controller
             'nama_laundry' => $request->nama_laundry
          ]);
 
-        return response()->json(['Data created successfully.', ($data)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data created successfully.',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -54,9 +67,21 @@ class LaundryController extends Controller
     {
         $data = Laundry::find($id);
         if (is_null($data)) {
-            return response()->json('Data not found', 404);
+            return response()->json(
+                [
+                    'status' => 404,
+                    'message' => 'Data not found'
+                ]
+            );
         }
-        return response()->json([($data)]);
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
     }
 
     /**
@@ -82,7 +107,13 @@ class LaundryController extends Controller
         $laundry->nama_laundry = $request->nama_laundry;
         $laundry->save();
 
-        return response()->json(['Data updated successfully.', ($laundry)]);
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data updated successfully.',
+                'data' => $laundry
+            ]
+        );
     }
 
     /**
@@ -94,6 +125,12 @@ class LaundryController extends Controller
     public function destroy(Laundry $laundry)
     {
         $laundry->delete();
-        return response()->json('Data deleted successfully');
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data deleted successfully'
+            ]
+        );
     }
 }
