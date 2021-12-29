@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:laundry_app/pages/form_laundry_page.dart';
 import 'package:laundry_app/theme.dart';
 
 class KategoriPage extends StatefulWidget {
@@ -31,27 +32,33 @@ class _KategoriPageState extends State<KategoriPage> {
                 StaggeredGridTile.count(
                   crossAxisCellCount: 2,
                   mainAxisCellCount: 2,
-                  child: Card(
-                    color: Colors.grey[200],
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.local_laundry_service,
-                            size: 60,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Cuci Basah',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          )
-                        ],
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => FormLaundryPage()));
+                    },
+                    child: Card(
+                      color: Colors.grey[200],
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.local_laundry_service,
+                              size: 60,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Cuci Basah',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

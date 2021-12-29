@@ -29,8 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               CachedNetworkImage(
                 width: double.infinity,
-                imageUrl:
-                    "https://mapandan.gov.ph/wp-content/uploads/2018/03/no_image.jpg",
+                imageUrl: "https://drukasia.com/images/stripes/monk3.jpg",
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: Color(0xFFEBEBF4),
                   highlightColor: Color(0xFFEBEBF4),

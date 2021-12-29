@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/kategori_page.dart';
 import 'package:laundry_app/pages/login_page.dart';
+import 'package:laundry_app/pages/penyedia_history_page.dart';
+import 'package:laundry_app/pages/profile_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundry_app/widgets/bottom_feedback.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -62,6 +66,18 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
               onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => ProfilePage()));
+              },
+              icon: Icon(Icons.person)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => PenyediaHistoryPage()));
+              },
+              icon: Icon(Icons.history)),
+          IconButton(
+              onPressed: () {
                 _logout();
               },
               icon: Icon(Icons.logout))
@@ -90,11 +106,40 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(builder: (_) => KategoriPage()));
                       },
                       child: Card(
-                        color: Colors.grey[200],
+                        color: Colors.grey[100],
                         child: Container(
-                          padding: EdgeInsets.all(16),
-                          child: Text('Hello'),
-                        ),
+                            width: double.infinity,
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    CachedNetworkImage(
+                                      width: 60,
+                                      height: 60,
+                                      imageUrl:
+                                          "https://drukasia.com/images/stripes/monk3.jpg",
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                        baseColor: Color(0xFFEBEBF4),
+                                        highlightColor: Color(0xFFEBEBF4),
+                                        child: Container(
+                                          color: primaryBlue,
+                                          width: 60,
+                                          height: 60,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text('Nama Laundry'),
+                                  ],
+                                )
+                              ],
+                            )),
                       ),
                     ),
                   );
