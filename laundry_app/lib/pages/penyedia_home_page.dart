@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/kategori_page.dart';
 import 'package:laundry_app/pages/login_page.dart';
+import 'package:laundry_app/pages/penyedia_history_page.dart';
+import 'package:laundry_app/pages/penyedia_pesanan_berlangsung_page.dart';
+import 'package:laundry_app/pages/penyedia_pesanan_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundry_app/widgets/bottom_feedback.dart';
@@ -65,6 +68,75 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
               },
               icon: Icon(Icons.logout))
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => PenyediaPesananPage()));
+                },
+                child: Card(
+                  color: Colors.grey[200],
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Pesanan Baru'), Text('0')],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => PenyediaPesananBerlangsung()));
+                },
+                child: Card(
+                  color: Colors.grey[200],
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Pesanan Berlangsung'), Text('0')],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => PenyediaHistoryPage()));
+                },
+                child: Card(
+                  color: Colors.grey[200],
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Riwayat Laundry'), Text('0')],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
