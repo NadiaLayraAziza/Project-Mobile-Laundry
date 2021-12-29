@@ -9,6 +9,7 @@ import 'package:laundry_app/pages/login_page.dart';
 import 'package:laundry_app/pages/penyedia_history_page.dart';
 import 'package:laundry_app/pages/penyedia_pesanan_berlangsung_page.dart';
 import 'package:laundry_app/pages/penyedia_pesanan_page.dart';
+import 'package:laundry_app/pages/profile_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundry_app/widgets/bottom_feedback.dart';
@@ -62,6 +63,12 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
           ],
         ),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => ProfilePage()));
+              },
+              icon: Icon(Icons.person)),
           IconButton(
               onPressed: () {
                 _logout();
