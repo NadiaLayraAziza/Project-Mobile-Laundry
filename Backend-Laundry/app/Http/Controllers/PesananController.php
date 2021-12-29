@@ -129,6 +129,21 @@ class PesananController extends Controller
         );
     }
 
+    public function UpdateStatus(Request $request, Pesanan $pesanan)
+    {
+        $pesanan->id = $request->id;
+        $pesanan->status = $request->status;
+        $pesanan->save();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Status updated successfully.',
+                'data' => $pesanan
+            ]
+        );
+    }
+
     /**
      * Remove the specified resource from storage.
      *
