@@ -46,11 +46,9 @@ class PesananController extends Controller
             'user_id' => auth()->user()->id,
             'laundry_id' => $request->laundry_id,
             'kategori_id' => $request->kategori_id,
-            'berat' => $request->berat,
             'tanggal' => $request->tanggal,
             'estimasi_hari' => $request->estimasi_hari,
             'pengambilan' => $request->pengambilan,
-            'harga' => $request->harga,
             'status' => $request->status,
          ]);
 
@@ -139,6 +137,22 @@ class PesananController extends Controller
             [
                 'status' => 200,
                 'message' => 'Status updated successfully.',
+                'data' => $pesanan
+            ]
+        );
+    }
+
+    public function UpdateHarga(Request $request, Pesanan $pesanan)
+    {
+        $pesanan->id = $request->id;
+        $pesanan->berat = $request->berat;
+        $pesanan->harga = $request->harga;
+        $pesanan->save();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data updated successfully.',
                 'data' => $pesanan
             ]
         );

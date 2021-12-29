@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth-api'], function ($router) {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::put('/status/update', [PesananController::class, 'UpdateStatus']);
+    Route::put('/harga/update', [PesananController::class, 'UpdateHarga']);
     Route::resource('kategori', KategoriController::class);
     Route::resource('laundry', LaundryController::class);
     Route::resource('pesanan', PesananController::class);
