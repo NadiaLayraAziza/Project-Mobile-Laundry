@@ -49,7 +49,7 @@ class PesananController extends Controller
             'tanggal' => $request->tanggal,
             'estimasi_hari' => $request->estimasi_hari,
             'pengambilan' => $request->pengambilan,
-            'status' => $request->status,
+            'status' => 'Belum Dikonfirmasi',
          ]);
 
         return response()->json(
