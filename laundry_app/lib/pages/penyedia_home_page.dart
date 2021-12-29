@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry_app/constant/string_constant.dart';
+import 'package:laundry_app/pages/form_kategori_page.dart';
 import 'package:laundry_app/pages/kategori_page.dart';
 import 'package:laundry_app/pages/login_page.dart';
 import 'package:laundry_app/pages/penyedia_history_page.dart';
@@ -80,6 +81,26 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
         child: Column(
           children: [
             SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => FormKategoriPage()));
+                },
+                child: Card(
+                  color: Colors.grey[200],
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Data Kategori Laundry')],
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               width: double.infinity,
