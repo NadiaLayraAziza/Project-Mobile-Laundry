@@ -61,8 +61,7 @@ class RegisterPageState extends State<RegisterPage> {
               context, MaterialPageRoute(builder: (_) => LoginPage()));
         });
       } else {
-        print(response.body);
-        // BottomFeedback.error(context, 'Error', '${response.body}');
+        BottomFeedback.error(context, 'Error', 'Register gagal');
       }
     } on SocketException {
       BottomFeedback.error(context, 'Error', 'No Internet connection 😑');
