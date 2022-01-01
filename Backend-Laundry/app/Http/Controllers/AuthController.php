@@ -44,7 +44,7 @@ class AuthController extends Controller
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
             'role' => $request->role
-         ]);
+        ]);
 
         return response()->json(
             [
@@ -62,7 +62,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(User::with('laundry')->find(auth()->user()->id));
     }
 
     /**

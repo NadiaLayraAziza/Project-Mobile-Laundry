@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
         url,
         headers: {'Authorization': 'Bearer ' + StringConstant.token},
       );
-      print(response.body);
       if (response.statusCode == 200) {
         BottomFeedback.success(context, 'Selamat', 'Logout berhasil');
         StringConstant.deleteStorage();

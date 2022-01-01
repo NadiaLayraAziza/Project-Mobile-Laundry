@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/home_page.dart';
 import 'package:laundry_app/pages/penyedia_home_page.dart';
@@ -49,15 +50,18 @@ class _LoginPageState extends State<LoginPage> {
               context, MaterialPageRoute(builder: (_) => PenyediaHomePage()));
         }
       } else {
-        BottomFeedback.error(context, 'Error', 'Login gagal 😑');
+        Fluttertoast.showToast(
+            msg: 'Login Gagal',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     } on SocketException {
-      BottomFeedback.error(context, 'Error', 'No Internet connection 😑');
     } on HttpException {
-      BottomFeedback.error(context, 'Error', "Couldn't find the post 😱");
-    } on FormatException {
-      BottomFeedback.error(context, 'Error', "Bad response format 👎");
-    }
+    } on FormatException {}
   }
 
   @override

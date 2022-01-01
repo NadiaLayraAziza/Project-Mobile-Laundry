@@ -316,7 +316,6 @@ class RegisterPageState extends State<RegisterPage> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          print('tap');
                           if (nama.isEmpty ||
                               email.isEmpty ||
                               username.isEmpty ||

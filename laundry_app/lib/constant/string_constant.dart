@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class StringConstant {
   // ignore: constant_identifier_names
-  static const BASEURL = 'http://192.168.43.246:8000/api';
+  static const BASEURL = 'http://192.168.1.109:8000/api';
   static const _storage = FlutterSecureStorage();
   static String token = '';
   static String role = '';

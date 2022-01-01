@@ -12,37 +12,26 @@ class BottomFeedback {
         builder: (BuildContext bc) {
           return Padding(
             padding: EdgeInsets.fromLTRB(15, 20, 15, 45),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  color: Colors.red,
-                  size: 60,
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      msg,
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                )
-              ],
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    msg,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
             ),
           );
         });
@@ -56,21 +45,11 @@ class BottomFeedback {
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.fromLTRB(15, 20, 15, 45),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.check,
-                  color: Colors.green,
-                  size: 60,
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Column(
+              padding: EdgeInsets.fromLTRB(15, 20, 15, 45),
+              child: Center(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
@@ -86,10 +65,8 @@ class BottomFeedback {
                       textAlign: TextAlign.center,
                     )
                   ],
-                )
-              ],
-            ),
-          );
+                ),
+              ));
         });
   }
 }
