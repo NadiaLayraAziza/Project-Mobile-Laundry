@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/kategori_page.dart';
 import 'package:laundry_app/pages/login_page.dart';
+import 'package:laundry_app/pages/pengguna_history_page.dart';
 import 'package:laundry_app/pages/penyedia_history_page.dart';
 import 'package:laundry_app/pages/profile_page.dart';
 import 'package:laundry_app/theme.dart';
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => PenyediaHistoryPage()));
+                    MaterialPageRoute(builder: (_) => PenggunaHistoryPage()));
               },
               icon: Icon(Icons.history)),
           IconButton(
