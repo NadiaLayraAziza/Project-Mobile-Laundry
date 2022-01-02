@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pesanan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PesananController extends Controller
@@ -15,6 +16,57 @@ class PesananController extends Controller
     public function index()
     {
         $data = Pesanan::latest()->get();
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
+    }
+
+    public function pesananBaru()
+    {
+        $user = User::with('laundry')->where('id', auth()->user()->id)->first();
+        $data = Pesanan::with(['user', 'laundry', 'kategori'])->where('laundry_id', $user->laundry->id)->where('status', 'Belum Dikonfirmasi')->get();
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
+    }
+
+    public function pesananBerlangsung()
+    {
+        $user = User::with('laundry')->where('id', auth()->user()->id)->first();
+        $data = Pesanan::with(['user', 'laundry', 'kategori'])->where('laundry_id', $user->laundry->id)->where('status', 'Proses')->get();
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
+    }
+
+    public function riwayatPenyedia()
+    {
+        $user = User::with('laundry')->where('id', auth()->user()->id)->first();
+        $data = Pesanan::with(['user', 'laundry', 'kategori'])->where('laundry_id', $user->laundry->id)->where('status', 'Selesai')->get();
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Data berhasil ditampilkan',
+                'data' => $data
+            ]
+        );
+    }
+
+    public function riwayatPengguna()
+    {
+        $data = Pesanan::with(['user', 'laundry', 'kategori'])->where('user_id', auth()->user()->id)->get();
         return response()->json(
             [
                 'status' => 200,
@@ -49,8 +101,10 @@ class PesananController extends Controller
             'tanggal' => $request->tanggal,
             'estimasi_hari' => $request->estimasi_hari,
             'pengambilan' => $request->pengambilan,
+            'berat' => $request->berat,
+            'harga' => $request->harga,
             'status' => 'Belum Dikonfirmasi',
-         ]);
+        ]);
 
         return response()->json(
             [
@@ -127,11 +181,13 @@ class PesananController extends Controller
         );
     }
 
-    public function UpdateStatus(Request $request, Pesanan $pesanan)
+    public function UpdateStatus(Request $request, $id)
     {
-        $pesanan->id = $request->id;
-        $pesanan->status = $request->status;
-        $pesanan->save();
+        $pesanan = Pesanan::find($id);
+        $pesanan->update([
+            'status' => 'Selesai'
+        ]);
+
 
         return response()->json(
             [
@@ -142,12 +198,14 @@ class PesananController extends Controller
         );
     }
 
-    public function UpdateHarga(Request $request, Pesanan $pesanan)
+    public function UpdateHarga(Request $request, $id)
     {
-        $pesanan->id = $request->id;
-        $pesanan->berat = $request->berat;
-        $pesanan->harga = $request->harga;
-        $pesanan->save();
+        $pesanan = Pesanan::find($id);
+        $pesanan->update([
+            'berat' => $request->berat,
+            'harga' => $request->harga,
+            'status' => 'Proses'
+        ]);
 
         return response()->json(
             [

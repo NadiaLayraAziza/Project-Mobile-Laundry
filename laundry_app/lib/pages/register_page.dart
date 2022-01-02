@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/login_page.dart';
 import 'package:laundry_app/theme.dart';
-import 'package:laundry_app/widgets/bottom_feedback.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
@@ -334,8 +333,14 @@ class RegisterPageState extends State<RegisterPage> {
                               alamat.isEmpty ||
                               role.isEmpty ||
                               telepon.isEmpty) {
-                            BottomFeedback.error(context, 'Mohon maaf!',
-                                'Pastikan semua data terisi!');
+                            Fluttertoast.showToast(
+                                msg: 'Data harus diisi',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                           } else {
                             _handleSubmit();
                             // BottomFeedback.success(

@@ -8,8 +8,6 @@ import 'package:laundry_app/pages/home_page.dart';
 import 'package:laundry_app/pages/penyedia_home_page.dart';
 import 'package:laundry_app/pages/register_page.dart';
 import 'package:laundry_app/theme.dart';
-import 'package:laundry_app/widgets/bottom_feedback.dart';
-import 'package:laundry_app/widgets/bottom_feedback.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
@@ -38,7 +36,14 @@ class _LoginPageState extends State<LoginPage> {
         'password': password.text,
       });
       if (response.statusCode == 200) {
-        BottomFeedback.success(context, 'Selamat', 'Login berhasil');
+        Fluttertoast.showToast(
+            msg: 'Login berhasil',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         var res = json.decode(response.body)['data'];
         StringConstant.setToken(res['token']['access_token']);
         StringConstant.setRole(res['user']['role']);
@@ -177,8 +182,14 @@ class _LoginPageState extends State<LoginPage> {
                     child: InkWell(
                       onTap: () {
                         if (email.text.isEmpty || password.text.isEmpty) {
-                          BottomFeedback.error(context, 'Mohon maaf!',
-                              'Pastikan semua data terisi!');
+                          Fluttertoast.showToast(
+                              msg: 'Data harus diisi',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                         } else {
                           _handleSubmit();
                         }

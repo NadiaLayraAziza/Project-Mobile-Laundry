@@ -24,8 +24,12 @@ Route::group(['middleware' => 'auth-api'], function ($router) {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('me', [AuthController::class, 'me']);
     Route::post('refresh', [AuthController::class, 'refresh']);
-    Route::put('/status/update', [PesananController::class, 'UpdateStatus']);
-    Route::put('/harga/update', [PesananController::class, 'UpdateHarga']);
+    Route::get('/pesanan/baru', [PesananController::class, 'pesananBaru']);
+    Route::get('/pesanan/proses', [PesananController::class, 'pesananberlangsung']);
+    Route::get('/pesanan/selesai', [PesananController::class, 'riwayatPenyedia']);
+    Route::get('/pesanan/riwayat', [PesananController::class, 'riwayatPegguna']);
+    Route::put('/status/update/{id}', [PesananController::class, 'UpdateStatus']);
+    Route::put('/harga/update/{id}', [PesananController::class, 'UpdateHarga']);
     Route::resource('kategori', KategoriController::class);
     Route::resource('laundry', LaundryController::class);
     Route::resource('pesanan', PesananController::class);

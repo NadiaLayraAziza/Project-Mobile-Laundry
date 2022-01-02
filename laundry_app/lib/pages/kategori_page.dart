@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/form_laundry_page.dart';
+import 'package:laundry_app/pages/home_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:http/http.dart' as http;
 
@@ -54,6 +55,15 @@ class _KategoriPageState extends State<KategoriPage> {
             name,
             style: heading2.copyWith(color: Colors.white),
           ),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => HomePage()));
+            },
+            child: Icon(
+              Icons.arrow_back, // add custom icons also
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -68,8 +78,13 @@ class _KategoriPageState extends State<KategoriPage> {
                   mainAxisCellCount: 2,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => FormLaundryPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => FormLaundryPage(
+                                    laundryId: e['laundry_id'].toString(),
+                                    kategoriId: e['id'].toString(),
+                                  )));
                     },
                     child: Card(
                       color: Colors.grey[200],

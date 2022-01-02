@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/kategori_page.dart';
 import 'package:laundry_app/pages/login_page.dart';
@@ -11,7 +12,6 @@ import 'package:laundry_app/pages/penyedia_history_page.dart';
 import 'package:laundry_app/pages/profile_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry_app/widgets/bottom_feedback.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,19 +30,29 @@ class _HomePageState extends State<HomePage> {
         headers: {'Authorization': 'Bearer ' + StringConstant.token},
       );
       if (response.statusCode == 200) {
-        BottomFeedback.success(context, 'Selamat', 'Logout berhasil');
+        Fluttertoast.showToast(
+            msg: 'Logout berhasil',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         StringConstant.deleteStorage();
         Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage()));
       } else {
-        BottomFeedback.error(context, 'Error', 'Logout gagal 😑');
+        Fluttertoast.showToast(
+            msg: 'Logout gagal',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     } on SocketException {
-      BottomFeedback.error(context, 'Error', 'No Internet connection 😑');
     } on HttpException {
-      BottomFeedback.error(context, 'Error', "Couldn't find the post 😱");
-    } on FormatException {
-      BottomFeedback.error(context, 'Error', "Bad response format 👎");
-    }
+    } on FormatException {}
   }
 
   List _laundry = [];

@@ -9,7 +9,6 @@ import 'package:laundry_app/pages/form_laundry.dart';
 import 'package:laundry_app/pages/home_page.dart';
 import 'package:laundry_app/pages/penyedia_home_page.dart';
 import 'package:laundry_app/theme.dart';
-import 'package:laundry_app/widgets/bottom_feedback.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
 

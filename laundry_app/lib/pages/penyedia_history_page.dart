@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/penyedia_pesanan_berlangsung_page.dart';
 import 'package:laundry_app/theme.dart';
+import 'package:http/http.dart' as http;
 
 class PenyediaHistoryPage extends StatefulWidget {
   const PenyediaHistoryPage({Key? key}) : super(key: key);
@@ -11,6 +16,31 @@ class PenyediaHistoryPage extends StatefulWidget {
 }
 
 class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
+  List _pesanan = [];
+
+  void _getPesanan() async {
+    try {
+      var url = Uri.parse(StringConstant.BASEURL + '/pesanan/selesai');
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer ' + StringConstant.token},
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          _pesanan = json.decode(response.body)['data'];
+        });
+      }
+    } on SocketException {
+    } on HttpException {
+    } on FormatException {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getPesanan();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +51,7 @@ class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
         ),
       ),
       body: ListView.builder(
-          itemCount: 100,
+          itemCount: _pesanan.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -43,7 +73,7 @@ class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
                           children: [
                             Text('Nama pengguna'),
                             Text(
-                              'Tita',
+                              _pesanan[index]['user']['nama'],
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -56,7 +86,7 @@ class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
                           children: [
                             Text('Nama kategori'),
                             Text(
-                              'Cuci basah',
+                              _pesanan[index]['kategori']['jenis'],
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -69,7 +99,7 @@ class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
                           children: [
                             Text('Tanggal'),
                             Text(
-                              '2021-10-11',
+                              _pesanan[index]['tanggal'].toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -82,7 +112,7 @@ class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
                           children: [
                             Text('Berat'),
                             Text(
-                              '100kg',
+                              _pesanan[index]['berat'].toString() + ' kg',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -95,7 +125,20 @@ class _PenyediaHistoryPageState extends State<PenyediaHistoryPage> {
                           children: [
                             Text('Total Harga'),
                             Text(
-                              'Rp 1000000',
+                              'Rp ' + _pesanan[index]['harga'].toString(),
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Status'),
+                            Text(
+                              _pesanan[index]['status'].toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],

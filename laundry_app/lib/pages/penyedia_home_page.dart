@@ -14,7 +14,6 @@ import 'package:laundry_app/pages/penyedia_pesanan_page.dart';
 import 'package:laundry_app/pages/profile_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundry_app/widgets/bottom_feedback.dart';
 
 class PenyediaHomePage extends StatefulWidget {
   const PenyediaHomePage({Key? key}) : super(key: key);
@@ -32,19 +31,29 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
         headers: {'Authorization': 'Bearer ' + StringConstant.token},
       );
       if (response.statusCode == 200) {
-        BottomFeedback.success(context, 'Selamat', 'Logout berhasil');
+        Fluttertoast.showToast(
+            msg: 'Logout berhasil',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         StringConstant.deleteStorage();
         Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage()));
       } else {
-        BottomFeedback.error(context, 'Error', 'Logout gagal 😑');
+        Fluttertoast.showToast(
+            msg: 'Data harus diisi',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     } on SocketException {
-      BottomFeedback.error(context, 'Error', 'No Internet connection 😑');
     } on HttpException {
-      BottomFeedback.error(context, 'Error', "Couldn't find the post 😱");
-    } on FormatException {
-      BottomFeedback.error(context, 'Error', "Bad response format 👎");
-    }
+    } on FormatException {}
   }
 
   Map profil = {};
@@ -66,10 +75,70 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
     } on FormatException {}
   }
 
+  List _pesananbaru = [];
+
+  void _getPesanan() async {
+    try {
+      var url = Uri.parse(StringConstant.BASEURL + '/pesanan/baru');
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer ' + StringConstant.token},
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          _pesananbaru = json.decode(response.body)['data'];
+        });
+      }
+    } on SocketException {
+    } on HttpException {
+    } on FormatException {}
+  }
+
+  List _pesananBerlangsung = [];
+
+  void _getPesananBerlangsung() async {
+    try {
+      var url = Uri.parse(StringConstant.BASEURL + '/pesanan/proses');
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer ' + StringConstant.token},
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          _pesananBerlangsung = json.decode(response.body)['data'];
+        });
+      }
+    } on SocketException {
+    } on HttpException {
+    } on FormatException {}
+  }
+
+  List _pesananSelesai = [];
+
+  void _getPesananSelesai() async {
+    try {
+      var url = Uri.parse(StringConstant.BASEURL + '/pesanan/selesai');
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer ' + StringConstant.token},
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          _pesananSelesai = json.decode(response.body)['data'];
+        });
+      }
+    } on SocketException {
+    } on HttpException {
+    } on FormatException {}
+  }
+
   @override
   void initState() {
     super.initState();
     _getProfil();
+    _getPesanan();
+    _getPesananBerlangsung();
+    _getPesananSelesai();
   }
 
   @override
@@ -152,7 +221,10 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
                     padding: EdgeInsets.all(16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Pesanan Baru'), Text('0')],
+                      children: [
+                        Text('Pesanan Baru'),
+                        Text(_pesananbaru.length.toString())
+                      ],
                     ),
                   ),
                 ),
@@ -174,7 +246,10 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
                     padding: EdgeInsets.all(16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Pesanan Berlangsung'), Text('0')],
+                      children: [
+                        Text('Pesanan Berlangsung'),
+                        Text(_pesananBerlangsung.length.toString())
+                      ],
                     ),
                   ),
                 ),
@@ -194,7 +269,10 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
                     padding: EdgeInsets.all(16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Riwayat Laundry'), Text('0')],
+                      children: [
+                        Text('Riwayat Laundry'),
+                        Text(_pesananSelesai.length.toString())
+                      ],
                     ),
                   ),
                 ),
