@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Kategori extends Model
 {
     use HasFactory;
-    protected $table="kategori";
+    protected $table = "kategori";
     protected $primaryKey = 'id';
 
     protected $fillable = [
@@ -23,6 +23,6 @@ class Kategori extends Model
     }
     public function laundry()
     {
-        return $this->hasMany(Laundry::class);
+        return $this->belongsTo(Laundry::class, 'laundry_id');
     }
 }

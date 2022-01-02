@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\Laundry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -51,6 +52,26 @@ class LaundryController extends Controller
             'user_id' => auth()->user()->id,
             'nama_laundry' => $request->nama_laundry,
             'gambar' => $image_name
+        ]);
+
+        Kategori::insert([
+            [
+                'laundry_id' => $data->id,
+                'jenis' => 'Cuci Basah',
+                'hargakg' => '0',
+            ], [
+                'laundry_id' => $data->id,
+                'jenis' => 'Cuci Kering',
+                'hargakg' => '0',
+            ], [
+                'laundry_id' => $data->id,
+                'jenis' => 'Setrika',
+                'hargakg' => '0',
+            ], [
+                'laundry_id' => $data->id,
+                'jenis' => 'Komplit',
+                'hargakg' => '0',
+            ]
         ]);
 
         return response()->json(
@@ -109,7 +130,7 @@ class LaundryController extends Controller
      */
     public function update(Request $request, Laundry $laundry)
     {
-        if ($request->file('gambar')){
+        if ($request->file('gambar')) {
             $image_name = $request->file('gambar')->store('images', 'public');
             $laundry->gambar = $image_name;
             $laundry->nama_laundry = $request->nama_laundry;

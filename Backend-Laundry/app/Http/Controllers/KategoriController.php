@@ -12,9 +12,9 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Kategori::latest()->get();
+        $data = Kategori::with('laundry')->where('laundry_id', $request->laundry_id)->get();
         return response()->json(
             [
                 'status' => 200,
@@ -43,10 +43,10 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $data = Kategori::create([
-            'laundry_id' => $request->laundry_id,
+            'laundry_id' => auth()->user()->laundry->id,
             'jenis' => $request->jenis,
             'hargakg' => $request->hargakg,
-         ]);
+        ]);
 
         return response()->json(
             [

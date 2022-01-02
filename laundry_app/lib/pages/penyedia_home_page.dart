@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/form_kategori_page.dart';
 import 'package:laundry_app/pages/kategori_page.dart';
@@ -46,6 +47,31 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
     }
   }
 
+  Map profil = {};
+
+  void _getProfil() async {
+    try {
+      var url = Uri.parse(StringConstant.BASEURL + '/me');
+      var response = await http.post(
+        url,
+        headers: {'Authorization': 'Bearer ' + StringConstant.token},
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          profil = json.decode(response.body);
+        });
+      }
+    } on SocketException {
+    } on HttpException {
+    } on FormatException {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProfil();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,8 +112,19 @@ class _PenyediaHomePageState extends State<PenyediaHomePage> {
               width: double.infinity,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => FormKategoriPage()));
+                  profil['laundry'] == null
+                      ? Fluttertoast.showToast(
+                          msg: 'Lengkapi data laundry kamu terlebih dahulu',
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0)
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => FormKategoriPage()));
                 },
                 child: Card(
                   color: Colors.grey[200],

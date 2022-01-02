@@ -48,7 +48,6 @@ class _FormLaundryState extends State<FormLaundry> {
       }
       var response = await request.send();
       var res = await http.Response.fromStream(response);
-      print(url);
       if (response.statusCode == 200) {
         Fluttertoast.showToast(
             msg: json.decode(res.body)['message'],

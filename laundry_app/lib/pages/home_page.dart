@@ -45,6 +45,31 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  List _laundry = [];
+
+  void _getLaundry() async {
+    try {
+      var url = Uri.parse(StringConstant.BASEURL + '/laundry');
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer ' + StringConstant.token},
+      );
+      if (response.statusCode == 200) {
+        setState(() {
+          _laundry = json.decode(response.body)['data'];
+        });
+      }
+    } on SocketException {
+    } on HttpException {
+    } on FormatException {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getLaundry();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,15 +119,19 @@ class _HomePageState extends State<HomePage> {
                   ))),
           Expanded(
             child: ListView.builder(
-                itemCount: 100,
+                itemCount: _laundry.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     width: double.infinity,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => KategoriPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => KategoriPage(
+                                      id: _laundry[index]['id'].toString(),
+                                    )));
                       },
                       child: Card(
                         color: Colors.grey[100],
@@ -116,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                                     CachedNetworkImage(
                                       width: 60,
                                       height: 60,
-                                      imageUrl:
+                                      imageUrl: _laundry[index]['gambar'] ??
                                           "https://drukasia.com/images/stripes/monk3.jpg",
                                       placeholder: (context, url) =>
                                           Shimmer.fromColors(
@@ -134,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(
                                       width: 20,
                                     ),
-                                    Text('Nama Laundry'),
+                                    Text(_laundry[index]['nama_laundry']),
                                   ],
                                 )
                               ],

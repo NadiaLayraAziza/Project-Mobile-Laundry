@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/form_laundry.dart';
+import 'package:laundry_app/pages/home_page.dart';
 import 'package:laundry_app/pages/penyedia_home_page.dart';
 import 'package:laundry_app/theme.dart';
 import 'package:laundry_app/widgets/bottom_feedback.dart';
@@ -56,25 +57,29 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => PenyediaHomePage()));
+                builder: (BuildContext context) => profil['role'] == 'penyedia'
+                    ? PenyediaHomePage()
+                    : HomePage()));
           },
           child: Icon(
             Icons.arrow_back, // add custom icons also
           ),
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => FormLaundry(
-                              data: profil['laundry'] == null
-                                  ? {}
-                                  : profil['laundry'],
-                            )));
-              },
-              icon: Icon(Icons.local_laundry_service_outlined))
+          profil['role'] == 'penyedia'
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => FormLaundry(
+                                  data: profil['laundry'] == null
+                                      ? {}
+                                      : profil['laundry'],
+                                )));
+                  },
+                  icon: Icon(Icons.local_laundry_service_outlined))
+              : Container()
         ],
       ),
       body: SingleChildScrollView(
@@ -83,22 +88,8 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              profil['laundry'] == null
-                  ? CachedNetworkImage(
-                      width: double.infinity,
-                      imageUrl: "https://drukasia.com/images/stripes/monk3.jpg",
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Color(0xFFEBEBF4),
-                        highlightColor: Color(0xFFEBEBF4),
-                        child: Container(
-                          color: primaryBlue,
-                          width: double.infinity,
-                          height: 100,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    )
-                  : profil['laundry']['gambar'] == ""
+              profil['role'] == 'penyedia'
+                  ? profil['laundry'] == null
                       ? CachedNetworkImage(
                           width: double.infinity,
                           imageUrl:
@@ -115,27 +106,48 @@ class _ProfilePageState extends State<ProfilePage> {
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
                         )
-                      : CachedNetworkImage(
-                          width: double.infinity,
-                          imageUrl: profil['laundry']['gambar'],
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: Color(0xFFEBEBF4),
-                            highlightColor: Color(0xFFEBEBF4),
-                            child: Container(
-                              color: primaryBlue,
+                      : profil['laundry']['gambar'] == ""
+                          ? CachedNetworkImage(
                               width: double.infinity,
-                              height: 100,
-                            ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
+                              imageUrl:
+                                  "https://drukasia.com/images/stripes/monk3.jpg",
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Color(0xFFEBEBF4),
+                                highlightColor: Color(0xFFEBEBF4),
+                                child: Container(
+                                  color: primaryBlue,
+                                  width: double.infinity,
+                                  height: 100,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )
+                          : CachedNetworkImage(
+                              width: double.infinity,
+                              imageUrl: profil['laundry']['gambar'],
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Color(0xFFEBEBF4),
+                                highlightColor: Color(0xFFEBEBF4),
+                                child: Container(
+                                  color: primaryBlue,
+                                  width: double.infinity,
+                                  height: 100,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )
+                  : Container(),
               SizedBox(height: 15),
-              Text(
-                  profil['laundry'] == null
-                      ? '...'
-                      : profil['laundry']['nama_laundry'],
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+              profil['role'] == 'penyedia'
+                  ? Text(
+                      profil['laundry'] == null
+                          ? '...'
+                          : profil['laundry']['nama_laundry'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24))
+                  : Container(),
               SizedBox(height: 15),
               Card(
                 color: Colors.grey[200],

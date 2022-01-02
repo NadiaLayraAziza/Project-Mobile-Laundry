@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry_app/constant/string_constant.dart';
 import 'package:laundry_app/pages/login_page.dart';
 import 'package:laundry_app/theme.dart';
@@ -55,21 +56,31 @@ class RegisterPageState extends State<RegisterPage> {
       var url = Uri.parse(StringConstant.BASEURL + '/register');
       var response = await http.post(url, body: payload);
       if (response.statusCode == 200) {
-        BottomFeedback.success(context, 'Selamat', 'Registrasi berhasil');
+        Fluttertoast.showToast(
+            msg: 'Registrasi berhasil',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Future.delayed(Duration(seconds: 2), () {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => LoginPage()));
         });
       } else {
-        BottomFeedback.error(context, 'Error', 'Register gagal');
+        Fluttertoast.showToast(
+            msg: 'Registrasi Gagal',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     } on SocketException {
-      BottomFeedback.error(context, 'Error', 'No Internet connection 😑');
     } on HttpException {
-      BottomFeedback.error(context, 'Error', "Couldn't find the post 😱");
-    } on FormatException {
-      BottomFeedback.error(context, 'Error', "Bad response format 👎");
-    }
+    } on FormatException {}
   }
 
   @override
