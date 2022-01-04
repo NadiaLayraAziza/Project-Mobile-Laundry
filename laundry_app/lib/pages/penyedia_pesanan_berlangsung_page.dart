@@ -147,7 +147,33 @@ class _PenyediaPesananBerlangsungState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Berat'),
+                            Text('Estimasi Hari'),
+                            Text(
+                              _pesanan[index]['estimasi_hari'].toString(),
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Pengambilan'),
+                            Text(
+                              _pesanan[index]['pengambilan'],
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Berat (Kg)'),
                             Text(
                               _pesanan[index]['berat'].toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
